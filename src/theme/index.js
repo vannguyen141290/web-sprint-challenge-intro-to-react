@@ -5,4 +5,5 @@ export default {
     headerSize: '30px',
     boxShape: '10px',
     breakpointMobile: '(max-width: 500px)',
+    mobileFontSize: '0.7rem',
 }

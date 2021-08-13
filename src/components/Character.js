@@ -15,6 +15,9 @@ const StyledCharacter = styled.div`
         color: black;
     }
     margin: 5px 0;
+    @media ${pr => pr.theme.breakpointMobile} {
+        font-size: ${pr => pr.theme.mobileFontSize};
+    }
 
 `
 

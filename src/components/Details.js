@@ -9,6 +9,12 @@ const StyledDetails = styled.div`
     box-shadow: -3px 0 24px rgba(0, 0, 0, 0.5);
     margin: auto;
     padding: 1%;
+    @media ${pr => pr.theme.breakpointMobile} {
+        div {
+            font-size: ${pr => pr.theme.mobileFontSize};
+            color: red;
+        }
+    }
 
 `
 

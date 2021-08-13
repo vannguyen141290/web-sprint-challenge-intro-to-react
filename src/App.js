@@ -25,6 +25,7 @@ const StyledApp = styled.div`
     width: 100px;
     height: 30px;
     border-color: white;
+    cursor: pointer;
     &:hover {
       background-color: #a5a8a5;
       color: white;
