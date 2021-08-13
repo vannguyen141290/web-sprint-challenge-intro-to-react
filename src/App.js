@@ -1,12 +1,50 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
 import axios from 'axios';
 import Character from './components/Character';
-import num from './constants/api';
-// import { set } from 'msw/lib/types/context';
+import Search from './components/Search';
+
+//import styling
+import styled from 'styled-components';
+import './App.css';
+
+//styling
+const StyledApp = styled.div`
+  border: white solid 1px;
+  box-shadow: inset -1px 3px 8px 5px #6e736f;
+  background-color: ${pr => pr.theme.primaryColor};
+  border-radius: ${pr => pr.theme.boxShape};
+  h1 {
+    font-size: ${pr => pr.theme.headerSize};
+  };
+  #list {
+    padding: 1%;
+  };
+  button {
+    border-radius: 7px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    width: 100px;
+    height: 30px;
+    border-color: white;
+    &:hover {
+      background-color: #a5a8a5;
+      color: white;
+      transform: scale(1.2);
+    };
+  };
+  #content {
+    display: flex;
+    flex-direction: column;
+    justify-center: center;
+    align-items: center;
+    width: 70%;
+  }
+
+`;
+
 
 const App = () => {
   const [chars, setChars] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect( async () => {
     const charArr = [];
@@ -19,21 +57,23 @@ const App = () => {
     setChars(charArr);
   }, []);
   
-   
-  // Try to think through what state you'll need for this app before starting. Then build out
-  // the state properties here.
+  const getFilteredChars = () => {
+    const newArr = chars.filter(char => {
+      return char.name.toLowerCase().includes(searchTerm.toLowerCase());
+    })
+    return newArr;
+  };
 
-  // Fetch characters from the API in an effect hook. Remember, anytime you have a 
-  // side effect in a component, you want to think about which state and/or props it should
-  // sync up with, if any.
 
   return (
-    <div className="App">
-      <h1 className="Header">Characters</h1>
-      <input className='search-bar' type='text' placeholder='Search characters by name...'/>
-      <div>Star Wars Major Characters List</div>
-      {chars.map(char => <Character key={char.name} char={char} />)}
-    </div>
+    <StyledApp className="App">
+        <h1 className="Header">Characters</h1>
+        <Search setSearchTerm={setSearchTerm} />
+        <div id='list'>Star Wars Major Characters List</div>
+        <div id='content'>
+          {getFilteredChars().map(char => <Character key={char.name} char={char} />)}
+        </div>
+    </StyledApp>
   );
 }
 
