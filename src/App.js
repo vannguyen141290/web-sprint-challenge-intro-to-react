@@ -45,16 +45,17 @@ const StyledApp = styled.div`
 const App = () => {
   const [chars, setChars] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [error, setError] = useState(null);
 
-  useEffect( async () => {
-    const charArr = [];
-    for (let i = 1; i <= 6; i++) {
-      let number = i;
-      const char = await axios(`https://swapi.dev/api/people/${number}`);
-      charArr.push(char.data);
-    }
-
-    setChars(charArr);
+  useEffect(() => {
+    axios.get(`https://swapi.dev/api/people`)
+      .then(res => {
+        setChars(res.data);
+      })
+      .catch(err => {
+        console.error(err);
+        setError("Sorry, try again soon");
+      })  
   }, []);
   
   const getFilteredChars = () => {
@@ -69,6 +70,7 @@ const App = () => {
     <StyledApp className="App">
         <h1 className="Header">Characters</h1>
         <Search setSearchTerm={setSearchTerm} />
+        {error && <div>{error}</div>}
         <div id='list'>Star Wars Major Characters List</div>
         <div id='content'>
           {getFilteredChars().map(char => <Character key={char.name} char={char} />)}
